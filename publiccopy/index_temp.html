@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+
+    if (window.scrollY > 50) {
+      nav.style.opacity = '0';
+      nav.style.transition = 'opacity 0.5s'
+    } else if (window.scrollY == 0){
+      nav.style.opacity = '1';
+    }
+
+
+    document.querySelectorAll('.section').forEach((section, index) => {
+
+      const sectionTop = section.getBoundingClientRect().top;
+      const sectionHeight = section.getBoundingClientRect().height;
+
+      if (sectionTop < (window.innerHeight - sectionHeight / 3)) {
+        section.classList.add('active');
+      } else {
+        section.classList.remove('active');
+      }
+    });
+  });
+  </script>
+
+
+
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="section1">Home</a></li>
+      <li><a href="section2">Services</a></li>
+      <li><a href="section3">About us</a></li>
+      <li><a href="section4">Blog</a></li>
+      <li><a href="section5">Contact us</a></li>
+    </ul>
+  </nav>
+
+  <div class="section" id="section1">
+    <div class="company-description">
+      <h1>Expert Software Solutions</h1>
+      <p>Leading the way in innovative and efficient software development.</p>
+      <!-- Additional descriptive text can go here -->
+    </div>
+    <!-- Other content for Section 1 -->
+  </div>
+
+  <div class="section" id="section2">
+    <div class="services">
+      <h2>Our Services</h2>
+      <div class="service">
+        <h3>Mobile App Development</h3>
+        <p>Creating innovative and user-friendly mobile applications for iOS and Android platforms.</p>
+      </div>
+      <div class="service">
+        <h3>Website Development</h3>
+        <p>Designing responsive and engaging websites to enhance your online presence.</p>
+      </div>
+      <div class="service">
+        <h3>Client-Server Application Development</h3>
+        <p>Building robust client-server solutions tailored to meet specific business needs.</p>
+      </div>
+      <!-- Additional services can be added here -->
+    </div>
+  </div>
+
+
+
+  <div class="section" id="section3">
+    <div class="contact-info">
+      <h2>Contact</h2>
+      <p><strong>John Doe</strong><br>
+        Phone: +123456789</p>
+      </div>
+
+      <!-- Contact form on the right hand side. -->
+      <div class="contact-form">
+        <form id="emailForm" action="/send-email" method="POST">
+          <div class="name-field-row">
+            <div class="name-row">
+              <p class="name-label">Name</p>
+            </div>
+            <div class="name-textfields">
+                  <input type="text" id="name" name="first_name" placeholder="First Name">
+                  <input type="text" id="name" name="last_name" placeholder="Last Name">
+            </div>
+          </div>
+
+
+          <div class="email-field-row">
+            <div class="email-row">
+              <p class="email-label">Email</p>
+            </div>
+            <div class="email-fields">
+              <input type="email" id="email" name="email">
+            </div>
+          </div>
+
+          <div class="message-field-row">
+            <div class="message-row">
+              <p class="message-label">Message</p>
+            </div>
+            <div class="message-fields">
+              <textarea id="message" name="message"></textarea>
+            </div>
+          </div>
+          <div id="successMessage" class="success_message" style="display: none;"> <!-- Initially hidden -->
+          </div>
+          <input type="submit" value="Submit">
+        </form>
+      </difv>
+    </div>
+
+    <script>
+        // Submit the form using AJAX
+        $('#emailForm').submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            $.ajax({
+                type: 'POST',
+                url: '/send-email',
+                data: $(this).serialize(),
+                success: function (response) {
+
+                    // Display the success message
+                    if (response.success) {
+                        $('#successMessage').text(response.message).show();
+                        $('#emailForm')[0].reset();
+                    }
+
+                }
+            });
+        });
+    </script>
+
+
+  </body>
+  </html>
